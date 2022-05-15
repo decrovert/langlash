@@ -14,7 +14,7 @@
         android:theme="@style/Theme.Langlash"
         tools:targetApi="31">
         <activity
-            android:name=".NewLanguage"
+            android:name=".NewLanguageActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

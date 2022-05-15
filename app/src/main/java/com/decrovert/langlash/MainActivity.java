@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openNewLanguageMenu() {
-        Intent intent = new Intent(this, NewLanguage.class);
+        Intent intent = new Intent(this, NewLanguageActivity.class);
         startActivity(intent);
     }
 }

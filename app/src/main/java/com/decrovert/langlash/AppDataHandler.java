@@ -1,7 +1,5 @@
 package com.decrovert.langlash;
 
-import static android.content.Context.MODE_PRIVATE;
-
 import android.content.Context;
 import android.widget.Toast;
 
@@ -18,14 +16,12 @@ import java.io.InputStreamReader;
 public class AppDataHandler {
     private static final String DATA_FILENAME = "language_data.json";
 
-    private static void createAppDataFile(Context context) {
+    private static void writeAppDataFile(Context context, String string) {
         FileOutputStream fos = null;
 
         try {
-            fos = context.openFileOutput(DATA_FILENAME, MODE_PRIVATE);
-
-            JSONObject root = new JSONObject();
-            fos.write(root.toString().getBytes());
+            fos = context.openFileOutput(DATA_FILENAME, Context.MODE_PRIVATE);
+            fos.write(string.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -37,6 +33,11 @@ public class AppDataHandler {
                 }
             }
         }
+    }
+
+    private static void createAppDataFile(Context context) {
+        JSONObject root = new JSONObject();
+        writeAppDataFile(context, root.toString());
     }
 
     private static JSONObject readAppDataFile(Context context) {
@@ -78,21 +79,31 @@ public class AppDataHandler {
         return final_object;
     }
 
+    private static JSONObject readAppDataFileRecheck(Context context) {
+        JSONObject app_json_data = readAppDataFile(context);
+
+        for (byte i = 0; app_json_data == null; ++i) {
+            if (i == 1) {
+                return null;
+            }
+
+            createAppDataFile(context);
+            app_json_data = readAppDataFile(context);
+        }
+
+        return app_json_data;
+    }
+
     public static void saveNewLanguage(Context context, String language_name) {
         if (language_name.isEmpty()) {
             Toast.makeText(context, "Can't create a language without a name!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        JSONObject app_json_data = readAppDataFile(context);
+        JSONObject app_json_data = readAppDataFileRecheck(context);
 
-        for (byte i = 0; app_json_data == null; ++i) {
-            if (i == 1) {
-                return;
-            }
-
-            createAppDataFile(context);
-            app_json_data = readAppDataFile(context);
+        if (app_json_data == null) {
+            return;
         }
 
         JSONObject new_language = new JSONObject();
@@ -124,21 +135,6 @@ public class AppDataHandler {
             e.printStackTrace();
         }
 
-        FileOutputStream fos = null;
-
-        try {
-            fos = context.openFileOutput(DATA_FILENAME, MODE_PRIVATE);
-            fos.write(app_json_data.toString().getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (fos != null) {
-                try {
-                    fos.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        writeAppDataFile(context, app_json_data.toString());
     }
 }
