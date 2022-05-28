@@ -43,18 +43,18 @@ public class AppDataHandler {
     private static JSONObject readAppDataFile(Context context) {
         FileInputStream fis = null;
         String data = "";
-        JSONObject final_object = null;
+        JSONObject finalObject = null;
 
         try {
             fis = context.openFileInput(DATA_FILENAME);
 
-            InputStreamReader fis_reader = new InputStreamReader(fis);
-            BufferedReader br = new BufferedReader(fis_reader);
+            InputStreamReader fisReader = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(fisReader);
             StringBuilder result = new StringBuilder();
-            String current_line;
+            String currentLine;
 
-            while ((current_line = br.readLine()) != null) {
-                result.append(current_line).append("\n");
+            while ((currentLine = br.readLine()) != null) {
+                result.append(currentLine).append("\n");
             }
 
             data = result.toString();
@@ -71,27 +71,27 @@ public class AppDataHandler {
         }
 
         try {
-            final_object = new JSONObject(data);
+            finalObject = new JSONObject(data);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        return final_object;
+        return finalObject;
     }
 
     private static JSONObject readAppDataFileRecheck(Context context) {
-        JSONObject app_json_data = readAppDataFile(context);
+        JSONObject appJSONData = readAppDataFile(context);
 
-        for (byte i = 0; app_json_data == null; ++i) {
+        for (byte i = 0; appJSONData == null; ++i) {
             if (i == 1) {
                 return null;
             }
 
             createAppDataFile(context);
-            app_json_data = readAppDataFile(context);
+            appJSONData = readAppDataFile(context);
         }
 
-        return app_json_data;
+        return appJSONData;
     }
 
     /** Checks if a String only contains characters from the English alphabet. */
@@ -108,32 +108,32 @@ public class AppDataHandler {
         return true;
     }
 
-    public static void saveNewLanguage(Context context, String language_name) {
-        if (language_name.isEmpty()) {
+    public static void saveNewLanguage(Context context, String languageName) {
+        if (languageName.isEmpty()) {
             Toast.makeText(context, "Can't create a language without a name!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (language_name.length() > 30) {
+        if (languageName.length() > 30) {
             Toast.makeText(context, "The given name is too long!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (!isStringAZ(language_name)) {
+        if (!isStringAZ(languageName)) {
             Toast.makeText(context, "Language names can only contain characters from the English alphabet!", Toast.LENGTH_LONG).show();
             return;
         }
 
-        JSONObject app_json_data = readAppDataFileRecheck(context);
+        JSONObject appJSONData = readAppDataFileRecheck(context);
 
-        if (app_json_data == null) {
+        if (appJSONData == null) {
             return;
         }
 
         JSONObject new_language = new JSONObject();
 
         try {
-            new_language.put("name", language_name);
+            new_language.put("name", languageName);
             new_language.put("words", new JSONArray());
         } catch (JSONException e) {
             e.printStackTrace();
@@ -141,14 +141,14 @@ public class AppDataHandler {
         }
 
         try {
-            if (!app_json_data.has("languages")) {
-                app_json_data.put("languages", new JSONArray());
+            if (!appJSONData.has("languages")) {
+                appJSONData.put("languages", new JSONArray());
             }
 
-            JSONArray languages_array = app_json_data.getJSONArray("languages");
+            JSONArray languages_array = appJSONData.getJSONArray("languages");
 
             for (int i = 0; i < languages_array.length(); ++i) {
-                if (languages_array.getJSONObject(i).getString("name").equals(language_name)) {
+                if (languages_array.getJSONObject(i).getString("name").equals(languageName)) {
                     Toast.makeText(context, "This language already exists!", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -159,6 +159,6 @@ public class AppDataHandler {
             e.printStackTrace();
         }
 
-        writeAppDataFile(context, app_json_data.toString());
+        writeAppDataFile(context, appJSONData.toString());
     }
 }
