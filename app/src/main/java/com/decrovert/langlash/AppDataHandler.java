@@ -114,6 +114,11 @@ public class AppDataHandler {
             return;
         }
 
+        if (language_name.length() > 30) {
+            Toast.makeText(context, "The given name is too long!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if (!isStringAZ(language_name)) {
             Toast.makeText(context, "Language names can only contain characters from the English alphabet!", Toast.LENGTH_LONG).show();
             return;
