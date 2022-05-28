@@ -94,9 +94,28 @@ public class AppDataHandler {
         return app_json_data;
     }
 
+    /** Checks if a String only contains characters from the English alphabet. */
+    private static boolean isStringAZ(String string) {
+        for (int i = 0; i < string.length(); ++i) {
+            boolean lowercase = (byte)string.charAt(i) >= 'a' && (byte)string.charAt(i) <= 'z';
+            boolean uppercase = (byte)string.charAt(i) >= 'A' && (byte)string.charAt(i) <= 'Z';
+
+            if (!lowercase && !uppercase) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public static void saveNewLanguage(Context context, String language_name) {
         if (language_name.isEmpty()) {
             Toast.makeText(context, "Can't create a language without a name!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!isStringAZ(language_name)) {
+            Toast.makeText(context, "Language names can only contain characters from the English alphabet!", Toast.LENGTH_LONG).show();
             return;
         }
 
