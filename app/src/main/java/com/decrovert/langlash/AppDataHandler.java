@@ -124,6 +124,8 @@ public class AppDataHandler {
             return;
         }
 
+        languageName = languageName.replace(" ", "");
+
         JSONObject appJSONData = readAppDataFileRecheck(context);
 
         if (appJSONData == null) {
