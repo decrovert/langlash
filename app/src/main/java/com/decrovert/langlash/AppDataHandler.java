@@ -79,7 +79,7 @@ public class AppDataHandler {
         return finalObject;
     }
 
-    private static JSONObject readAppDataFileRecheck(Context context) {
+    public static JSONObject readAppDataFileRecheck(Context context) {
         JSONObject appJSONData = readAppDataFile(context);
 
         for (byte i = 0; appJSONData == null; ++i) {

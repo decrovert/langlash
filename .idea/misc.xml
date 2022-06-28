@@ -3,8 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/decro/Documents/Langlash/app/src/main/res/drawable/circular_shape.xml" value="0.1945" />
         <entry key="..\:/Users/decro/Documents/Langlash/app/src/main/res/drawable/round_button.xml" value="0.1945" />
-        <entry key="..\:/Users/decro/Documents/Langlash/app/src/main/res/layout/activity_main.xml" value="0.17074275362318841" />
+        <entry key="..\:/Users/decro/Documents/Langlash/app/src/main/res/drawable/round_corners.xml" value="0.1945" />
+        <entry key="..\:/Users/decro/Documents/Langlash/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/decro/Documents/Langlash/app/src/main/res/layout/activity_new_language.xml" value="0.17074275362318841" />
       </map>
     </option>
